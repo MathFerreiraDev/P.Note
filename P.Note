@@ -1,0 +1,134 @@
+from datetime import datetime
+import os
+
+clear = lambda: os.system('cls')
+class newnote:
+    def __init__(self, x, y,dat):
+     self.name = x
+     self.note = y
+     self.date = dat
+
+notes = []
+def VerificLetter(x):
+     while(x != "S" and x !="s" and x !="N" and x !="n"):
+        x = input("\nEscolha não disponível, tente novamente: ")
+     return x
+
+def VerificNumber(x,y):
+   while(x<=0 or x>y):
+    x = int(input("Escolha inválida, tente novamente: "))
+   return int(x)
+         
+
+def Grid():
+    for i in range(len(notes)):
+        print(f"{i+1} - {notes[i].name} em {notes[i].date}")
+    print("=============================================")
+
+def Open_Note():
+    
+        Grid()
+        print("\n+-------------------+")
+        print("|1 - Abrir anotação |")
+        print("|2 - Retornar       |")
+        print("+-------------------+")
+        change_decision_notes = int(input("Escolha: "))
+        change_decision_notes = VerificNumber(change_decision_notes,2)
+        if(change_decision_notes==1):
+            id_note_open = int(input("\nDigite o número da anotação: "))
+            id_note_open = VerificNumber(id_note_open,len(notes))
+
+            print(notes[id_note_open-1].name)
+            clear()
+            print("----------------------------------------------------------")
+            print(notes[id_note_open-1].note)
+            print("\n=================================")
+            esc_return = input("T E C L E   E N T E R   P A R A   R E T O R N A R")
+
+def SingUp_Note():
+    clear()
+    Grid()
+    main = input("\nNota: ")
+    save = input("Deseja salvar a nota? S/N: ")
+    save = VerificLetter(save)
+    if(save=="S" or save=="s"):
+        name = input("Digite qual será seu nome da anotação?: ")
+        notes.append(newnote(name,main,datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')))
+        input_new_note = input("\nDeseja criar mais alguma nota? S/N: ")
+        input_new_note = VerificLetter(input_new_note)
+        if(input_new_note=="S" or input_new_note=="s"):
+            SingUp_Note()
+
+def Remove_Note():
+    clear()
+    Grid()
+    print("\n+---------------------+")
+    print("|1 - Remover anotação |")
+    print("|2 - Retornar         |")
+    print("+---------------------+")
+    remove_decision = int(input("\nEscolha: "))
+    remove_decision = VerificNumber(remove_decision,2)
+    if(remove_decision==1):
+        print("-------------------------------------------")
+        id_remove = int(input("Digite o número da anotação para removê-lá: "))
+        id_remove = VerificNumber(id_remove,len(notes))
+        id_remove-=1
+        print("============================")
+        print(f"{id_remove} - {notes[id_remove].name} em {notes[id_remove].date}")
+        print("============================")
+        confirm_remove = input("Deseja mesmo remover a anotação? S/N: ")
+        confirm_remove = VerificLetter(confirm_remove)
+        if(confirm_remove=="S" or confirm_remove=="s"):
+            notes.pop(id_remove)
+
+
+
+
+
+    
+
+
+
+    
+
+def General():
+    roading = True
+    while(roading==True):
+     clear()
+     print("========================")
+     print("| P.Note - 2023        |")
+     print("========================")
+     print("| 1 - Abrir Anotações  |")
+     print("| 2 - Fazer Anotação   |")
+     print("| 3 - Remover Anotação |")
+     print("| 4 - Encerrar         |")
+     print("========================")
+     main_input = int(input("\nEscolha: "))
+     main_input = VerificNumber(main_input,4)
+     print(main_input)
+     if(main_input==1):
+      clear()
+      if(len(notes)<=0):
+        print("==================================")
+        print("|     NENHUMA ANOTAÇÃO FEITA     |")
+        print("==================================")
+        esc_return = input("\nT E C L E   E N T E R   P A R A   R E T O R N A R")
+      else:
+        Open_Note()
+     elif(main_input==2):
+        SingUp_Note()
+     elif(main_input==3):
+        if(len(notes)<=0):
+         print("==================================")
+         print("|     NENHUMA ANOTAÇÃO FEITA     |")
+         print("==================================")
+         esc_return = input("\nT E C L E   E N T E R   P A R A   R E T O R N A R")
+        else:
+         Remove_Note()
+     else:
+        
+        roading=False
+     
+
+    
+General()
